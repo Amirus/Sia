@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"math"
 	"math/big"
+
+	"github.com/NebulousLabs/Sia/build"
 )
 
 var (
@@ -35,7 +37,7 @@ func NewCurrency(b *big.Int) (c Currency) {
 	c.i = *b
 	if c.Cmp(ZeroCurrency) < 0 {
 		c = Currency{}
-		if DEBUG {
+		if build.DEBUG {
 			panic("cannot have a negative currency")
 		}
 	}
@@ -82,7 +84,7 @@ func (c Currency) Mul(x Currency) (y Currency) {
 // Behavior is undefined when x is negative.
 func (c Currency) MulFloat(x float64) (y Currency) {
 	if x < 0 {
-		if DEBUG {
+		if build.DEBUG {
 			panic("cannot multiple currency by a negative number")
 		}
 	} else {
@@ -116,7 +118,7 @@ func (c Currency) Sqrt() (y Currency) {
 func (c Currency) Sub(x Currency) (y Currency) {
 	if c.Cmp(x) < 0 {
 		y = c
-		if DEBUG {
+		if build.DEBUG {
 			panic("subtraction resulted in negative currency")
 		}
 	} else {
